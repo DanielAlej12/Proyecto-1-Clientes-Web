@@ -1,0 +1,164 @@
+@media print {
+
+    @page {
+        size: A4 landscape;
+        margin: 1.2cm;
+    }
+
+    html, body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 11pt;
+    }
+
+    body > *:not(main) {
+        display: none !important;
+    }
+    main > section:not(#seccion-resumen) {
+        display: none !important;
+    }
+
+    button,
+    .navegacion-opciones,
+    .acciones-formulario,
+    .acciones-resumen,
+    .controles-app,
+    .filtros-catalogo,
+    .filtros-panel,
+    .metricas-resultado,
+    #contador-resultados,
+    #mensaje-sistema,
+    #lista-seleccion,
+    #lista-manuales,
+    #panel-seleccion,
+    #seccion-preferencias,
+    #panel-control,
+    #seccion-catalogo,
+    #seccion-formulario-manual,
+    #seccion-resultados,
+    #contenedor-rejilla,
+    #modal-detalle-sesion,
+    #modal-detalle-materia,
+    #modal-confirmar-eliminar {
+        display: none !important;
+    }
+
+    /* Resumen visible */
+    #seccion-resumen {
+        display: block !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        background: #fff !important;
+    }
+
+    #seccion-resumen > h2 {
+        font-size: 16pt;
+        margin: 0 0 6mm 0;
+        text-align: center;
+        border-bottom: 2px solid #1e3a5f;
+        padding-bottom: 3mm;
+        color: #1e3a5f !important;
+    }
+
+    #seccion-resumen > h2::after {
+        display: none;
+    }
+
+    /* Rejilla en impresión */
+    .horario-grid-container {
+        box-shadow: none !important;
+        border: 1px solid #000 !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+        overflow: visible !important;
+        page-break-inside: avoid;
+        margin-bottom: 8mm;
+    }
+
+    .grid-header {
+        background: #1e3a5f !important;
+        color: #fff !important;
+        border-right: 1px solid #333 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .grid-time-label {
+        background: #f0f5fa !important;
+        color: #1e3a5f !important;
+        border-right: 1px solid #999 !important;
+        border-bottom: 1px solid #ccc !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .sesion-card {
+        background: #e2e8f0 !important;
+        color: #000 !important;
+        border: 1px solid #000 !important;
+        border-left-width: 4px !important;
+        border-left-color: #1e3a5f !important;
+        box-shadow: none !important;
+        transform: none !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .sesion-detalles {
+        color: #333 !important;
+    }
+
+    .tabla-resumen-materias {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        font-size: 10pt;
+        page-break-inside: auto;
+    }
+
+    .tabla-resumen-materias thead {
+        background: #1e3a5f !important;
+        color: #fff !important;
+        display: table-header-group;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .tabla-resumen-materias th,
+    .tabla-resumen-materias td {
+        border: 1px solid #000 !important;
+        padding: 3mm !important;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .tabla-resumen-materias tr {
+        page-break-inside: avoid;
+    }
+
+    .tabla-resumen-materias td:first-child {
+        color: #1e3a5f !important;
+        font-weight: 600;
+    }
+
+    .total-uc-resumen {
+        background: #e3edf6 !important;
+        border-left: 3px solid #2c5f8a !important;
+        color: #1e3a5f !important;
+        font-size: 12pt;
+        font-weight: bold;
+        margin-bottom: 4mm;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    h1, h2, h3 {
+        page-break-after: avoid;
+    }
+
+    .resumen-definitivo-container {
+        page-break-inside: auto;
+    }
+}
