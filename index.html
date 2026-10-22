@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock — Armador Inteligente de Horarios</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/print.css" media="print">
+</head>
+<body>
+
+    <header>
+        <h1>Clock 📅</h1>
+        <p>Armador Inteligente de Horarios Académicos</p>
+    </header>
+
+    <main class="container">
+
+        <!-- ===================== PANEL DE CONTROL ===================== -->
+        <section id="panel-control" class="card">
+            <h2>Configuración y Selección</h2>
+            <div class="config-group">
+                <label for="input-tope-uc">Tope de Unidades de Crédito (UC):</label>
+                <input type="number" id="input-tope-uc" value="28" min="1" max="28">
+                <span id="uc-actual-display">UC Seleccionadas: 0 / 28</span>
+            </div>
+            <button id="btn-generar" class="btn-primary">Generar Horarios Válidos</button>
+        </section>
+
+        <!-- ===================== CATÁLOGO ===================== -->
+        <section id="seccion-catalogo" class="card">
+            <h2>Catálogo Académico</h2>
+            <div class="filtros-catalogo">
+                <input type="text" id="buscador-materias" placeholder="Buscar por nombre o código...">
+                <select id="filtro-trimestre">
+                    <option value="">Todos los trimestres</option>
+                    <option value="1">Trimestre 1</option>
+                    <option value="2">Trimestre 2</option>
+                    <option value="3">Trimestre 3</option>
+                    <option value="4">Trimestre 4</option>
+                    <option value="5">Trimestre 5</option>
+                    <option value="6">Trimestre 6</option>
+                    <option value="7">Trimestre 7</option>
+                    <option value="8">Trimestre 8</option>
+                    <option value="9">Trimestre 9</option>
+                    <option value="10">Trimestre 10</option>
+                    <option value="11">Trimestre 11</option>
+                    <option value="12">Trimestre 12</option>
+                </select>
+            </div>
+            <div id="lista-catalogo" class="grid-materias"></div>
+        </section>
+
+        <!-- ===================== SELECCIÓN (fijar / excluir / atajo trimestre) ===================== -->
+        <section id="panel-seleccion" class="card">
+            <h2>Mi Selección</h2>
+
+            <div class="config-group">
+                <label for="select-trimestre-atajo">Agregar trimestre completo:</label>
+                <select id="select-trimestre-atajo">
+                    <option value="">Elegir trimestre…</option>
+                    <option value="1">Trimestre 1</option>
+                    <option value="2">Trimestre 2</option>
+                    <option value="3">Trimestre 3</option>
+                    <option value="4">Trimestre 4</option>
+                    <option value="5">Trimestre 5</option>
+                    <option value="6">Trimestre 6</option>
+                    <option value="7">Trimestre 7</option>
+                    <option value="8">Trimestre 8</option>
+                    <option value="9">Trimestre 9</option>
+                    <option value="10">Trimestre 10</option>
+                    <option value="11">Trimestre 11</option>
+                    <option value="12">Trimestre 12</option>
+                </select>
+                <button id="btn-agregar-trimestre" class="btn-primary">Agregar todo el trimestre</button>
+            </div>
+
+            <div id="lista-seleccion" class="lista-seleccion">
+                <p class="sin-resultados">Aún no has agregado materias.</p>
+            </div>
+
+            <div id="minimapa-choques"></div>
+        </section>
+
+        <!-- ===================== FORMULARIO DE MATERIAS MANUALES ===================== -->
+        <section id="seccion-formulario-manual" class="card">
+            <h2>Registrar Materia Manual</h2>
+
+            <form id="form-materia-manual" novalidate>
+
+                <div class="config-group">
+                    <label for="manual-codigo">Código:</label>
+                    <input type="text" id="manual-codigo" required>
+                    <span class="error-campo" data-para="manual-codigo"></span>
+                </div>
+
+                <div class="config-group">
+                    <label for="manual-nombre">Nombre:</label>
+                    <input type="text" id="manual-nombre" required>
+                    <span class="error-campo" data-para="manual-nombre"></span>
+                </div>
+
+                <div class="config-group">
+                    <label for="manual-trimestre">Trimestre:</label>
+                    <input type="number" id="manual-trimestre" min="1" max="12" required>
+                    <span class="error-campo" data-para="manual-trimestre"></span>
+                </div>
+
+                <div class="config-group">
+                    <label for="manual-uc">UC (1–5):</label>
+                    <input type="number" id="manual-uc" min="1" max="5" required>
+                    <span class="error-campo" data-para="manual-uc"></span>
+                </div>
+
+                <fieldset id="manual-secciones"></fieldset>
+
+                <div class="acciones-formulario">
+                    <button type="button" id="btn-agregar-seccion" class="btn-secondary">+ Añadir sección</button>
+                    <button type="submit" class="btn-primary">Guardar materia manual</button>
+                    <button type="button" id="btn-cancelar-edicion" class="btn-secondary" style="display:none;">Cancelar edición</button>
+                </div>
+
+                <span class="error-campo" data-para="manual-secciones"></span>
+
+            </form>
+
+            <!-- Lista de materias manuales registradas (editar / eliminar) -->
+            <div id="lista-manuales"></div>
+        </section>
+
+        <!-- ===================== PREFERENCIAS Y ORDEN ===================== -->
+        <section id="seccion-preferencias" class="card">
+            <h2>Preferencias y Orden</h2>
+
+            <div class="config-group">
+                <span>Días libres:</span>
+                <label><input type="checkbox" class="filtro-dia-libre" value="LUN"> LUN</label>
+                <label><input type="checkbox" class="filtro-dia-libre" value="MAR"> MAR</label>
+                <label><input type="checkbox" class="filtro-dia-libre" value="MIE"> MIE</label>
+                <label><input type="checkbox" class="filtro-dia-libre" value="JUE"> JUE</label>
+                <label><input type="checkbox" class="filtro-dia-libre" value="VIE"> VIE</label>
+                <label><input type="checkbox" class="filtro-dia-libre" value="SAB"> SAB</label>
+            </div>
+
+            <div class="config-group">
+                <label for="filtro-hora-min">Hora mínima de entrada:</label>
+                <input type="time" id="filtro-hora-min">
+                <label for="filtro-hora-max">Hora máxima de salida:</label>
+                <input type="time" id="filtro-hora-max">
+                <button id="btn-aplicar-preferencias" class="btn-primary">Aplicar filtros</button>
+            </div>
+
+            <div class="config-group">
+                <label for="select-orden">Ordenar por:</label>
+                <select id="select-orden">
+                    <option value="">Sin orden</option>
+                    <option value="dias">Menos días de asistencia</option>
+                    <option value="muertas">Menos horas muertas</option>
+                    <option value="salida">Salida más temprana</option>
+                </select>
+            </div>
+
+            <span id="contador-resultados"></span>
+        </section>
+
+        <!-- ===================== RESULTADOS ===================== -->
+        <section id="seccion-resultados" class="card">
+            <h2>Horarios Generados</h2>
+
+            <div id="controles-navegacion-opciones" class="navegacion-opciones" style="display:none;">
+                <button id="btn-opcion-anterior">◀ Anterior</button>
+                <span id="indicador-opcion">Opción 0 de 0</span>
+                <button id="btn-opcion-siguiente">Siguiente ▶</button>
+                <button id="btn-elegir-definitivo" class="btn-success">Elegir como Horario Definitivo</button>
+            </div>
+
+            <div id="metricas-resultado" class="metricas-resultado"></div>
+
+            <div id="contenedor-rejilla"></div>
+        </section>
+
+        <!-- ===================== RESUMEN DEFINITIVO ===================== -->
+        <section id="seccion-resumen" class="card">
+            <h2>Horario Definitivo y Resumen</h2>
+
+            <!-- Rejilla semanal del horario definitivo (para impresión y vista) -->
+            <div id="contenedor-rejilla-resumen"></div>
+
+            <!-- Tabla de resumen por materia + botón imprimir -->
+            <div id="contenedor-resumen"></div>
+        </section>
+
+    </main>
+
+    <!-- ===================== DATOS PROVISTOS ===================== -->
+    <script src="data/bloques.js"></script>
+    <script src="data/materias.js"></script>
+
+    <!-- ===================== LÓGICA DE LA APLICACIÓN ===================== -->
+    <script src="js/tiempo.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/seleccion.js"></script>
+    <script src="js/choques.js"></script>
+    <script src="js/generador.js"></script>
+    <script src="js/preferencias.js"></script>
+    <script src="js/formulario.js"></script>
+    <script src="js/catalogo.js"></script>
+    <script src="js/rejilla.js"></script>
+    <script src="js/resumen.js"></script>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
